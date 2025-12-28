@@ -1,10 +1,10 @@
-# youtube-chat-go
+# youtube-chat
 
 A port of [youtube-chat](https://github.com/LinaTsukusu/youtube-chat) to Go.
 
 ## 1. Install
 ```bash
-go get github.com/DiegPS/youtube-chat-go
+go get github.com/DiegPS/youtube-chat
 ```
 
 ## 2. Import
