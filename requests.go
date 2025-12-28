@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/DiegPS/youtube-chat-go/types"
+	"github.com/DiegPS/youtube-chat/types"
 )
 
 var (

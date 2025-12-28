@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DiegPS/youtube-chat-go/types"
+	"github.com/DiegPS/youtube-chat/types"
 )
 
 // Mock data

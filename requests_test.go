@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/DiegPS/youtube-chat-go/types"
+	"github.com/DiegPS/youtube-chat/types"
 )
 
 func TestFetchChat(t *testing.T) {

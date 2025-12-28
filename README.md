@@ -10,8 +10,8 @@ go get github.com/DiegPS/youtube-chat
 ## 2. Import
 ```go
 import (
-    "github.com/DiegPS/youtube-chat-go"
-    "github.com/DiegPS/youtube-chat-go/types" // optional, for more granular access to types
+    "github.com/DiegPS/youtube-chat"
+    "github.com/DiegPS/youtube-chat/types" // optional, for more granular access to types
 )
 ```
 

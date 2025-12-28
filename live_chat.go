@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/DiegPS/youtube-chat-go/types"
+	"github.com/DiegPS/youtube-chat/types"
 )
 
 type LiveChat struct {

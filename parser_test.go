@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DiegPS/youtube-chat-go/types"
+	"github.com/DiegPS/youtube-chat/types"
 )
 
 func TestParseChatData(t *testing.T) {
