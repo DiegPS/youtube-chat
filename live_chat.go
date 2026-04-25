@@ -55,25 +55,14 @@ func NewLiveChat(id types.YoutubeId, intervalMs int) (*LiveChat, error) {
 	return lc, nil
 }
 
-func (lc *LiveChat) Start() bool {
+func (lc *LiveChat) Start() error {
 	if lc.running {
-		return false
+		return errors.New("already running")
 	}
 
-	// Fetch initial options (FetchLivePage)
 	options, err := lc.FetchLivePageFunc(lc.id)
 	if err != nil {
-		// Emit error? The TS code emits error AND returns false logic.
-		// TS: emit("error", err); return false
-		// Since we haven't started the loop yet, user might be listening.
-		// We should try to send non-blocking or just return false?
-		// Better to run this async or blocking? TS start() is async.
-		// In Go, usually Start() starts the thing.
-		// Let's do the initial fetch synchronously purely to match 'await fetchLivePage' before interval?
-		// But in TS it returns a Promise.
-		// We can do it synchronously here.
-		lc.emitError(err)
-		return false
+		return err
 	}
 
 	lc.liveID = options.LiveID
@@ -82,10 +71,8 @@ func (lc *LiveChat) Start() bool {
 	lc.running = true
 	lc.stopChan = make(chan struct{})
 
-	// Start loop
 	lc.observer = time.NewTicker(lc.interval)
 
-	// Emit start
 	select {
 	case lc.StartChan <- lc.liveID:
 	default:
@@ -93,7 +80,7 @@ func (lc *LiveChat) Start() bool {
 
 	go lc.loop()
 
-	return true
+	return nil
 }
 
 func (lc *LiveChat) Stop(reason string) {

@@ -77,8 +77,8 @@ func TestStart(t *testing.T) {
 		return []types.ChatItem{}, "continuation", nil
 	}
 
-	if !lc.Start() {
-		t.Error("Failed to start")
+	if err := lc.Start(); err != nil {
+		t.Errorf("Failed to start: %v", err)
 	}
 
 	select {
@@ -99,16 +99,13 @@ func TestStartSecondTime(t *testing.T) {
 	lc.FetchChatFunc = func(opts types.FetchOptions) ([]types.ChatItem, string, error) { return nil, "", nil }
 
 	lc.Start()
-	if lc.Start() {
+	if err := lc.Start(); err == nil {
 		t.Error("Should not allow start second time")
 	}
 	lc.Stop("stop")
 
-	// Wait a bit for stop to propagate logic?
-	// actually Stop() logic is sync regarding setting 'running=false'
-
-	if !lc.Start() {
-		t.Error("Should allow start after stop")
+	if err := lc.Start(); err != nil {
+		t.Errorf("Should allow start after stop: %v", err)
 	}
 	lc.Stop("stop")
 }
@@ -170,17 +167,10 @@ func TestOnError_FetchLivePage(t *testing.T) {
 		return types.FetchOptions{}, errors.New("ERROR")
 	}
 
-	if lc.Start() {
-		t.Error("Start should return false on error")
-	}
-
-	select {
-	case err := <-lc.ErrorChan:
-		if err.Error() != "ERROR" {
-			t.Errorf("Expected error 'ERROR', got %v", err)
-		}
-	case <-time.After(1 * time.Second):
-		t.Error("Timeout waiting for ErrorChan")
+	if err := lc.Start(); err == nil {
+		t.Error("Start should return error on fetch failure")
+	} else if err.Error() != "ERROR" {
+		t.Errorf("Expected error 'ERROR', got %v", err)
 	}
 }
 
