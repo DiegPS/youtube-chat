@@ -35,7 +35,14 @@ func FetchChat(options types.FetchOptions) ([]types.ChatItem, string, error) {
 		return nil, "", err
 	}
 
-	resp, err := http.Post(url, "application/json", bytes.NewBuffer(bodyBytes))
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(bodyBytes))
+	if err != nil {
+		return nil, "", err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Accept-Encoding", "utf-8")
+
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, "", err
 	}
